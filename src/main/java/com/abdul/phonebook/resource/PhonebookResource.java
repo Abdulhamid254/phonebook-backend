@@ -81,5 +81,37 @@ public class PhonebookResource {
         );
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Response> updatePhonebook(
+            @PathVariable("id") Long id,
+            @RequestBody @Valid Phonebook updatedPhonebook
+    ) {
+        Phonebook existingPhonebook = PhonebookService.get(id);
+
+        if (existingPhonebook != null) {
+            updatedPhonebook.setId(id); // Make sure the ID from the path is set in the updated Phonebook
+
+            Phonebook updatedContact = PhonebookService.update(updatedPhonebook);
+
+            if (updatedContact != null) {
+                return ResponseEntity.ok(
+                        Response.builder()
+                                .timestamp(now())
+                                .data(of("contact", updatedContact))
+                                .message("Contact updated")
+                                .status(OK)
+                                .statusCode(OK.value())
+                                .build()
+                );
+            } else {
+                // Handle the case where the update failed
+                return ResponseEntity.status(500).build(); // Internal Server Error
+            }
+        } else {
+            // Handle the case where the contact with the provided ID is not found
+            return ResponseEntity.status(404).build(); // Not Found
+        }
+    }
+
 
 }
