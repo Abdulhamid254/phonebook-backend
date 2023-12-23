@@ -61,7 +61,7 @@ public class PhonebookResource {
                 Response.builder()
                         .timestamp(now())
                         .data(of("contact", PhonebookService.get(id)))
-                        .message("contact retrieved")
+                        .message("contact retrieved Successfully")
                         .status(OK)
                         .statusCode(OK.value())
                         .build()
