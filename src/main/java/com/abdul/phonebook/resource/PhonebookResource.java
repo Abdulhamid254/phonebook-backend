@@ -9,6 +9,7 @@ import org.apache.catalina.WebResourceRoot;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static java.time.LocalDateTime.now;
@@ -25,8 +26,8 @@ public class PhonebookResource {
 
 
     @GetMapping("/list")
-    public ResponseEntity<Response> getServers() throws InterruptedException {
-        TimeUnit.SECONDS.sleep(3);
+    public ResponseEntity<Response> getPhonebook() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(3);// place this here to cause delay so that we see the spinners
         WebResourceRoot phonebookService;
         return ResponseEntity.ok(
                 Response.builder()
@@ -43,7 +44,7 @@ public class PhonebookResource {
 
 
     @PostMapping("/save")
-    public ResponseEntity<Response> saveServer(@RequestBody @Valid Phonebook phonebook) {
+    public ResponseEntity<Response> savePhonebook(@RequestBody @Valid Phonebook phonebook) {
         return ResponseEntity.ok(
                 Response.builder()
                         .timestamp(now())
@@ -80,6 +81,7 @@ public class PhonebookResource {
                         .build()
         );
     }
+
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Response> updatePhonebook(
